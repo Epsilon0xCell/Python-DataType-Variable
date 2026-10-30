@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<!-- pages-campaign site for Epsilon0xCell/Python-DataType-Variable; source of truth: Python-DataType-Variable-Website/ on the default branch -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python-DataType-Variable - Lesson: a name, a value</title>
+<style>
+  /* I styled this as one lesson sheet because the repo is one lesson. Ruled lines, a margin, and the code set large in the middle. Adding more sections than the repo has would undo the point of the repo. */
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #dbe7f3; color: #1c2b3a; font-family: Verdana, Geneva, sans-serif; line-height: 1.6; }
+  .sheet { max-width: 720px; margin: 28px auto; background: #fffdf4; border: 1px solid #9db6cc; box-shadow: 6px 6px 0 #9db6cc; padding: 30px 30px 36px 54px; position: relative; }
+  .sheet::before { content: ""; position: absolute; top: 0; bottom: 0; left: 36px; width: 2px; background: #e8a0a0; }
+  .lesson-tag { font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: #5a7290; margin: 0 0 8px; }
+  h1 { font-size: 28px; line-height: 1.2; margin: 0 0 6px; }
+  .oneline { color: #3c546e; margin: 0 0 18px; }
+  .hero img { width: 100%; height: auto; display: block; border: 1px solid #9db6cc; }
+  .hero { margin: 0 0 18px; }
+  .hero figcaption { font-size: 12px; color: #5a7290; margin-top: 6px; }
+  .badges { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 20px; }
+  .badges img { height: 20px; }
+  h2 { font-size: 16px; margin: 28px 0 8px; color: #24425e; border-bottom: 2px solid #f0d060; padding-bottom: 4px; }
+  .codeblock { background: #1c2b3a; color: #fff3b0; font-family: ui-monospace, Menlo, monospace; font-size: 20px; line-height: 1.6; padding: 20px 22px; margin: 14px 0; overflow-x: auto; }
+  .output { background: #eef4ea; border: 1px dashed #6a8a5a; font-family: ui-monospace, Menlo, monospace; padding: 10px 14px; }
+  .objective { background: #fdf3c8; border: 1px solid #d9b93a; padding: 12px 16px; }
+  .objective p { margin: 0; }
+  table { border-collapse: collapse; width: 100%; margin: 10px 0; font-size: 14px; }
+  th, td { border: 1px solid #9db6cc; padding: 7px 10px; text-align: left; vertical-align: top; }
+  th { background: #eaf1f8; font-family: ui-monospace, Menlo, monospace; font-size: 13px; }
+  .chips { list-style: none; padding: 0; display: flex; gap: 8px; flex-wrap: wrap; }
+  .chips li { background: #24425e; color: #fff; padding: 3px 12px; font-size: 13px; font-family: ui-monospace, Menlo, monospace; border-radius: 12px; }
+  a { color: #1d5fa8; }
+  footer { margin-top: 32px; border-top: 1px solid #9db6cc; padding-top: 10px; font-size: 12px; color: #5a7290; display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+  .logo-small { width: 56px; height: 56px; float: right; margin-left: 14px; border: 1px solid #9db6cc; background: #fff; padding: 3px; }
+</style>
+</head>
+<body>
+<main class="sheet">
+  <p class="lesson-tag">Lesson 1 &middot; Variables and data types</p>
+  <h1>Python-DataType-Variable</h1>
+  <p class="oneline">Basic Python datatype and variable script</p>
+
+  <figure class="hero">
+    <img src="https://raw.githubusercontent.com/Epsilon0xCell/Python-DataType-Variable/main/banner.png" alt="Python-DataType-Variable banner">
+    <figcaption>banner.png from this repo, on main.</figcaption>
+  </figure>
+
+  <div class="badges">
+    <img src="https://img.shields.io/github/stars/Epsilon0xCell/Python-DataType-Variable" alt="Stars">
+    <img src="https://img.shields.io/github/forks/Epsilon0xCell/Python-DataType-Variable" alt="Forks">
+    <img src="https://img.shields.io/github/last-commit/Epsilon0xCell/Python-DataType-Variable" alt="Last commit">
+    <img src="https://img.shields.io/github/languages/top/Epsilon0xCell/Python-DataType-Variable" alt="Top language">
+    <img src="https://img.shields.io/github/repo-size/Epsilon0xCell/Python-DataType-Variable" alt="Repo size">
+    <img src="https://img.shields.io/github/license/Epsilon0xCell/Python-DataType-Variable" alt="License">
+  </div>
+
+  <div class="objective"><p><strong>Objective.</strong> By the end of this page you will have read the whole program. It takes about ten seconds, and that is the right amount of time for it.</p></div>
+
+  <h2>The whole program: variable.py</h2>
+  <!-- I set the code at 20px because these two lines are the lesson. Everything else on this page is commentary, and the size should admit that. -->
+  <div class="codeblock">keys = "fun"<br>print(keys)</div>
+  <p class="output">Output, checked by running it: fun &middot; exit code 0</p>
+
+  <h2>What this is</h2>
+  <img class="logo-small" src="https://raw.githubusercontent.com/Epsilon0xCell/Python-DataType-Variable/main/logo.png" alt="Python-DataType-Variable logo">
+  <p>I kept this repo at two lines. The first line binds the string <code>"fun"</code> to the name <code>keys</code>. The second line prints what that name points at. That is the smallest useful Python program I know: bind a value to a name, then use the name.</p>
+  <p>The lesson in the name of the repo is the data type point. <code>keys</code> holds a <code>str</code> here, and the same name could hold an <code>int</code> or a <code>list</code> later, because Python variables are labels on values, not typed boxes. The header comment in <code>variable.py</code> says exactly that, and the two lines below it prove it by running.</p>
+
+  <h2>Line by line</h2>
+  <table>
+    <tr><th>Line</th><th>What happens</th></tr>
+    <tr><td><code>keys = "fun"</code></td><td>The string value <code>fun</code> is created and the label <code>keys</code> is attached to it. Nothing is printed yet.</td></tr>
+    <tr><td><code>print(keys)</code></td><td><code>print()</code> looks up the label and writes the value it points at, then a newline. It prints <code>fun</code>, not the word <code>keys</code>.</td></tr>
+  </table>
+
+  <h2>Why it was not inflated</h2>
+  <p>In Deep Wave 1 I had the chance to grow this repo and I left it alone on purpose. A two line beginner snippet does not get functions, classes, or a command line interface. Anything more would misrepresent what the repo is. The only change in that pass was the header comment stating the lesson.</p>
+  <p>So this site is small for the same reason. If you came here looking for a larger project, this is not it, and I would rather say that on the lesson page than pad the lesson.</p>
+
+  <h2>Run it</h2>
+  <p>From the repo root, with Python 3:</p>
+  <p><code>python3 variable.py</code></p>
+  <ul class="chips"><li>Python</li></ul>
+  <p><a href="https://github.com/Epsilon0xCell/Python-DataType-Variable">Read Python-DataType-Variable on GitHub</a> &middot; <a href="https://github.com/Epsilon0xCell">Epsilon0xCell on GitHub</a></p>
+
+  <footer><span>Built by Epsilon0xCell</span><span>End of lesson. Two lines, both accounted for.</span></footer>
+</main>
+</body>
+</html>
