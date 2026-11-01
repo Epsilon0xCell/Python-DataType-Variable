@@ -1,408 +1,84 @@
 <!DOCTYPE html>
-<!-- pages-campaign site for Epsilon0xCell/Python-DataType-Variable; source of truth: Python-DataType-Variable-Website/ on the default branch -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Python-DataType-Variable: The Specimen Ledger</title>
-<script>document.documentElement.classList.add('js');</script>
+<title>Python-DataType-Variable: a winter day sheet from the copying room</title>
+<meta name="description" content="variable.py holds one assignment and one print call. A day sheet from the copying room: the binding, the output, and the edit and rerun loop.">
 <style>
-  /* I set this page as a field ledger because that is how I think about types: each one is a specimen you collect once, label by hand, and check again when you need it. The ruled lines and the red margin are the page doing that job, not decoration pasted on. */
-  * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    background: #4a4234;
-    color: #2b2418;
-    font-family: Georgia, "Times New Roman", serif;
-    line-height: 1.65;
-  }
-  .ledger {
-    max-width: 880px;
-    margin: 30px auto 44px;
-    background-color: #f7f0da;
-    background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 30px, rgba(90, 110, 140, 0.22) 30px, rgba(90, 110, 140, 0.22) 31px);
-    border: 1px solid #8a7a56;
-    box-shadow: 10px 12px 0 rgba(0, 0, 0, 0.28);
-    padding: 40px 46px 34px 72px;
-    position: relative;
-  }
-  .ledger::before {
-    content: "";
-    position: absolute;
-    top: 0; bottom: 0; left: 48px;
-    width: 2px;
-    background: rgba(178, 74, 62, 0.55);
-  }
-  .ledger::after {
-    /* I punched the binder holes in with CSS because the Visuals sheets in this repo are drawn on holed notebook paper too. The site and the sheets should look like they came out of the same folder. */
-    content: "";
-    position: absolute;
-    top: 90px; left: 14px;
-    width: 20px; height: 20px; border-radius: 50%;
-    background: #4a4234;
-    box-shadow: 0 340px 0 #4a4234, 0 780px 0 #4a4234, 0 1420px 0 #4a4234, 0 2100px 0 #4a4234;
-  }
-  .cover-note {
-    font-family: ui-monospace, Menlo, Consolas, monospace;
-    font-size: 12px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: #7a3b2e;
-    margin: 0 0 10px;
-  }
-  h1 { font-size: 36px; line-height: 1.15; margin: 0 0 8px; font-weight: normal; }
-  .standfirst { font-size: 17px; color: #4d4230; margin: 0 0 6px; max-width: 34em; }
-  .collector { font-size: 14px; color: #6b5c40; font-style: italic; margin: 0 0 22px; }
-  .frontispiece { margin: 0 0 8px; }
-  .frontispiece img { width: 100%; height: auto; display: block; border: 1px solid #8a7a56; }
-  figcaption { font-size: 13px; color: #6b5c40; font-style: italic; margin-top: 6px; }
-  .badges { display: flex; flex-wrap: wrap; gap: 7px; margin: 16px 0 8px; }
-  .badges img { height: 20px; }
-  h2 {
-    font-size: 22px; font-weight: normal; margin: 40px 0 4px;
-    border-bottom: 1px solid #8a7a56; padding-bottom: 5px;
-  }
-  h2 .folio { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 12px; color: #7a3b2e; letter-spacing: 0.14em; text-transform: uppercase; display: block; margin-bottom: 2px; }
-  p { max-width: 38em; }
-  code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 0.92em; background: rgba(138, 122, 86, 0.16); padding: 0 4px; }
-  a { color: #7a3b2e; }
-  /* I gave every entry a different width and a different offset because a real ledger is filled in by hand, entry by entry. Nine boxes in a neat grid would say a machine laid this page out, and a machine did not. */
-  .entry {
-    border: 1px solid #8a7a56;
-    background: rgba(255, 253, 244, 0.72);
-    padding: 16px 20px 14px;
-    margin: 22px 0;
-    position: relative;
-  }
-  .entry.w-wide { width: 100%; }
-  .entry.w-a { width: 82%; margin-left: 6%; }
-  .entry.w-b { width: 68%; margin-left: 22%; }
-  .entry.w-c { width: 76%; margin-left: 2%; }
-  .entry.w-d { width: 88%; margin-left: 10%; }
-  .entry.w-e { width: 64%; margin-left: 30%; }
-  .entry.w-f { width: 80%; margin-left: 12%; }
-  .entry .no {
-    font-family: ui-monospace, Menlo, Consolas, monospace;
-    font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #7a3b2e; margin: 0;
-  }
-  .entry h3 { font-size: 26px; font-weight: normal; margin: 2px 0 8px; }
-  .entry h3 .latin { font-size: 15px; font-style: italic; color: #6b5c40; }
-  .entry dl { margin: 0; }
-  .entry dt {
-    font-family: ui-monospace, Menlo, Consolas, monospace;
-    font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #6b5c40; margin-top: 8px;
-  }
-  .entry dd { margin: 2px 0 0; }
-  .entry dd.behaviour { font-size: 16px; }
-  /* The stamp is the type() result, pressed onto the entry the way a collector marks a sheet. I kept it red and slightly crooked because a stamp never lands straight. */
-  .stamp {
-    display: inline-block;
-    font-family: ui-monospace, Menlo, Consolas, monospace;
-    font-size: 14px;
-    color: #a33327;
-    border: 2px solid rgba(163, 51, 39, 0.75);
-    border-radius: 3px;
-    padding: 2px 10px;
-    transform: rotate(-7deg);
-    opacity: 0.92;
-  }
-  .source-tag {
-    display: inline-block;
-    font-family: ui-monospace, Menlo, Consolas, monospace;
-    font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
-    border: 1px solid #3d5a3a; color: #3d5a3a; padding: 1px 8px; margin-left: 10px; vertical-align: middle;
-  }
-  .source-tag.notes { border-color: #8a7a56; color: #6b5c40; }
-  pre.code, pre.out {
-    font-family: ui-monospace, Menlo, Consolas, monospace;
-    font-size: 14.5px; line-height: 1.6;
-    padding: 16px 18px; margin: 14px 0 6px;
-    overflow-x: auto;
-    white-space: pre;
-  }
-  pre.code { background: #2b2418; color: #f2e7c8; border: 1px solid #2b2418; }
-  pre.out { background: #efe8cf; color: #2b2418; border: 1px dashed #8a7a56; }
-  .runline { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 14px; margin: 12px 0 0; }
-  .plate { margin: 26px 0; }
-  .plate img { width: 100%; height: auto; display: block; border: 1px solid #8a7a56; background: #fffdf4; }
-  .plate.p-a { width: 88%; }
-  .plate.p-b { width: 62%; margin-left: 26%; }
-  .plate.p-c { width: 78%; margin-left: 4%; }
-  .plate.p-d { width: 92%; margin-left: 6%; }
-  .plate.p-e { width: 70%; margin-left: 16%; }
-  .plate.p-f { width: 84%; margin-left: 2%; }
-  .logo-note { overflow: hidden; }
-  .logo-note img { width: 120px; height: 120px; float: right; margin: 4px 0 10px 18px; border: 1px solid #8a7a56; }
-  .chips { list-style: none; padding: 0; display: flex; gap: 8px; flex-wrap: wrap; margin: 10px 0; }
-  .chips li { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 13px; border: 1px solid #8a7a56; padding: 2px 12px; background: rgba(255, 253, 244, 0.72); }
-  footer {
-    margin-top: 42px; border-top: 1px solid #8a7a56; padding-top: 10px;
-    font-size: 13px; color: #6b5c40;
-    display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;
-  }
-  /* The reveal follows the reading order on purpose: an entry shows itself only when you reach it, and its stamp lands a beat after the entry, the way a mark is pressed after the writing is done. */
-  .js .entry, .js .plate { opacity: 0; transform: translateY(14px); }
-  .js .entry.entered, .js .plate.entered {
-    opacity: 1; transform: none;
-    transition: opacity 0.55s ease, transform 0.55s ease;
-  }
-  .js .stamp { opacity: 0; transform: rotate(-7deg) scale(1.7); }
-  .js .entry.entered .stamp {
-    opacity: 0.92; transform: rotate(-7deg) scale(1);
-    transition: opacity 0.28s ease 0.35s, transform 0.28s ease 0.35s;
-  }
-  @media (prefers-reduced-motion: reduce) {
-    /* If you ask for stillness you get the finished ledger: every entry complete, every stamp already on the page, nothing waiting on a scroll. */
-    .js .entry, .js .plate { opacity: 1; transform: none; transition: none; }
-    .js .stamp { opacity: 0.92; transform: rotate(-7deg) scale(1); transition: none; }
-  }
-  @media (max-width: 640px) {
-    .ledger { padding: 28px 20px 26px 40px; margin: 14px 10px 30px; }
-    .ledger::before { left: 26px; }
-    .ledger::after { display: none; }
-    h1 { font-size: 29px; }
-    .entry.w-a, .entry.w-b, .entry.w-c, .entry.w-d, .entry.w-e, .entry.w-f { width: 100%; margin-left: 0; }
-    .plate.p-a, .plate.p-b, .plate.p-c, .plate.p-d, .plate.p-e, .plate.p-f { width: 100%; margin-left: 0; }
-    pre.code, pre.out { font-size: 13px; }
-  }
+@font-face{font-family:'Bitter';src:url('fonts/Bitter.ttf') format('truetype')}
+@font-face{font-family:'Bitcount Prop Double Ink';src:url('fonts/BitcountPropDoubleInk.ttf') format('truetype')}
+*{box-sizing:border-box}
+body{margin:0;background:#221c14;color:#2a2118;font-family:'Bitter',serif;line-height:1.65}
+.sheet{max-width:880px;margin:0 auto;background:#e9dfc6;padding:0 46px 44px;box-shadow:0 0 60px rgba(0,0,0,.55)}
+.hero{margin:0 -46px}
+.hero img{width:100%;height:240px;object-fit:cover;object-position:50% 78%;display:block}
+h1{font-size:2.5rem;line-height:1.15;margin:.7em 0 .2em;font-weight:700}
+h1 .gold{color:#a5812c}
+.lede{font-size:1.08rem;max-width:62ch}
+.slip{display:inline-block;background:#f2ead2;color:#1c1a16;text-decoration:none;padding:.5em 1.1em;border-left:4px solid #26408e;margin:.2em .4em .2em 0;box-shadow:inset 0 0 0 1px #cbbd97;transition:background .15s}
+.slip:hover{border-left-color:#3f63c8;background:#f7f0da}
+.slip:active{transform:translateY(2px);box-shadow:inset 0 0 0 1px #cbbd97,0 3px 0 rgba(60,45,20,.35)}
+.slip:focus-visible{outline:2px solid #a5812c;outline-offset:-4px}
+a.potlink{color:#26408e;text-decoration:none}
+a.potlink::before{content:'';display:inline-block;width:.6em;height:.6em;border:2px solid #1c1a16;border-radius:50%;margin-right:.4em;vertical-align:-.04em}
+a.potlink:hover::before{background:#1c1a16}
+a.potlink:hover{text-decoration:underline}
+.entry{background:#efe6cc;border:1px solid #c9b98f;padding:20px 26px 8px;margin:26px 0 26px 14px;position:relative}
+.entry::before{content:'';position:absolute;left:-14px;top:0;bottom:0;width:8px;background:repeating-linear-gradient(to bottom,#8a6f3c 0 10px,transparent 10px 22px)}
+.enum{font-family:'Bitter',serif;color:#26408e;font-size:.85rem;letter-spacing:.22em;text-transform:uppercase;margin:0}
+h2{font-size:1.45rem;margin:.15em 0 .4em}
+pre.ink{background:#1e1a14;color:#e9dfc6;padding:16px 20px;overflow-x:auto;font-family:Menlo,Consolas,monospace;font-size:1rem;line-height:1.6}
+.output{font-family:'Bitcount Prop Double Ink',monospace;font-size:3.2rem;color:#26408e;margin:.1em 0;line-height:1.2}
+.gloss{float:right;width:220px;background:#f2ead2;border-left:4px solid #26408e;padding:10px 14px;font-size:.9rem;margin:4px 0 12px 18px}
+.rule{border:0;border-top:2px solid #6b5636;position:relative;margin:38px 0 6px}
+.rule::after{content:'';position:absolute;left:50%;top:-9px;width:16px;height:16px;margin-left:-8px;background:#1e1a14;border-radius:50% 50% 46% 46%}
+footer{font-size:.9rem;color:#5a4a30;border-top:1px solid #c9b98f;margin-top:36px;padding-top:14px}
+@media(max-width:640px){.sheet{padding:0 20px 36px}.hero{margin:0 -20px}.gloss{float:none;width:auto;margin-left:0}}
 </style>
 </head>
 <body>
-<main class="ledger">
+<div class="sheet">
+<header class="hero">
+<img src="https://raw.githubusercontent.com/Epsilon0xCell/Python-DataType-Variable/main/intro-banner.png" alt="The copying room in winter: a blank sheet under stone weights, a frozen ink pot, and one thawed pot over a small lamp">
+</header>
+<h1><span class="gold">P</span>ython-DataType-Variable</h1>
+<p class="lede">A single day sheet from the copying room. The program in this repo is very small: <code>variable.py</code> holds one assignment and one print call, and running it shows what the name currently points at. Nothing else is claimed for it, because nothing else is in the file.</p>
+<p><a class="slip" href="#binding">Entry one: the binding</a> <a class="slip" href="#result">Entry two: the result</a> <a class="slip" href="#trying">Entry three: trying it</a> <a class="slip" href="https://github.com/Epsilon0xCell/Python-DataType-Variable">The repository</a></p>
 
-  <p class="cover-note">Field ledger, kept by hand</p>
-  <h1>Python-DataType-Variable: The Specimen Ledger</h1>
-  <p class="standfirst">Basic Python datatype and variable script. That one line from the README is the whole claim, and this page is the ledger that backs it up.</p>
-  <p class="collector">Collected and labeled by Epsilon0xCell. One specimen in this book came out of my own code. The rest are field notes, and I marked which is which on every entry.</p>
+<hr class="rule">
+<section class="entry" id="binding">
+<p class="enum">Entry one</p>
+<h2>The binding itself</h2>
+<div class="gloss">Marginal gloss: a variable is a label stuck on a value, not a box built for one kind of thing.</div>
+<p>Here is the whole working part of the file, set as an inked block on the sheet, exactly as <code>variable.py</code> has it:</p>
+<pre class="ink">keys = "fun"
+print(keys)</pre>
+<p>The name <code>keys</code> is tied to the string <code>"fun"</code>. A short comment at the top of the file makes the one idea the file teaches: the same name could later be tied to a whole number or a list, and the print call would still show whatever it points at on that run. Checked against a run, <code>type(keys)</code> reports a string, <code>len("fun")</code> is 3, and the first letter sits at position 0.</p>
+</section>
 
-  <figure class="frontispiece">
-    <img src="https://raw.githubusercontent.com/Epsilon0xCell/Python-DataType-Variable/main/banner.png" alt="Python-DataType-Variable banner, dark hills under a ringed moon">
-    <figcaption>Frontispiece: banner.png from the root of this repo, on main.</figcaption>
-  </figure>
+<hr class="rule">
+<section class="entry" id="result">
+<p class="enum">Entry two</p>
+<h2>The result</h2>
+<p>Run the file and this is what comes back, set large in lapis:</p>
+<p class="output">fun</p>
+<p>That is the complete output of the program. One word and a newline, exit code 0, and nothing follows it. The honesty about size is part of the lesson: a first program does not need to be big to show how a name, a value, and a print call fit together.</p>
+</section>
 
-  <div class="badges">
-    <img src="https://img.shields.io/github/stars/Epsilon0xCell/Python-DataType-Variable" alt="Stars">
-    <img src="https://img.shields.io/github/forks/Epsilon0xCell/Python-DataType-Variable" alt="Forks">
-    <img src="https://img.shields.io/github/last-commit/Epsilon0xCell/Python-DataType-Variable" alt="Last commit">
-    <img src="https://img.shields.io/github/languages/top/Epsilon0xCell/Python-DataType-Variable" alt="Top language">
-    <img src="https://img.shields.io/github/repo-size/Epsilon0xCell/Python-DataType-Variable" alt="Repo size">
-    <img src="https://img.shields.io/github/license/Epsilon0xCell/Python-DataType-Variable" alt="License">
-  </div>
+<hr class="rule">
+<section class="entry" id="trying">
+<p class="enum">Entry three</p>
+<h2>Trying it</h2>
+<p>Python on its own is enough. There are no added libraries to install and nothing to set up. From a terminal, in the folder that holds the file:</p>
+<pre class="ink">python3 variable.py</pre>
+<p>Then change the string between the quotes, run it again, and watch the printed word change while the rest of the file stays untouched. That edit and rerun loop is the only interaction this repo offers, and this page says so rather than dress it up.</p>
+<p>More of the room lives in the repo itself: <a class="potlink" href="https://github.com/Epsilon0xCell/Python-DataType-Variable/tree/main/Python-DataType-Variable-Visuals">the visuals folder</a> and <a class="potlink" href="https://github.com/Epsilon0xCell">the owner profile</a>.</p>
+</section>
 
-  <h2><span class="folio">Folio 1</span>The collected specimen</h2>
-  <p>I wrote one program for this repo, <code>variable.py</code>, and it holds exactly one value. So the ledger opens with exactly one collected specimen. Everything about it below is copied from the file or read off a run of it.</p>
-
-  <article class="entry w-wide">
-    <p class="no">Entry No. 1 <span class="source-tag">In variable.py</span></p>
-    <h3>str <span class="latin">text, kept in quotes</span></h3>
-    <dl>
-      <dt>Example value, as written in the file</dt>
-      <dd><code>keys = "fun"</code></dd>
-      <dt>type() result, stamped from a run</dt>
-      <dd><span class="stamp">&lt;class 'str'&gt;</span></dd>
-      <dt>How it behaves</dt>
-      <dd class="behaviour">It holds text. I can read its letters by position, <code>"fun"[0]</code> is <code>'f'</code> and <code>len("fun")</code> is 3, and I cannot change a letter in place once the string exists.</dd>
-    </dl>
-  </article>
-
-  <p>The file in full is six lines, four of them a comment I wrote to say what the two working lines mean. Here it is as a transcription, line numbers included, checked against the file at the head of this repo:</p>
-
-  <pre class="code" data-capture="full-file">1 | # The smallest useful Python program: bind a value to a name, then use
-2 | # the name. "keys" holds a str here; the same name could hold an int or a
-3 | # list later, because Python variables are labels on values, not typed
-4 | # boxes. print() shows the value the label currently points at.
-5 | keys = "fun"
-6 | print(keys)</pre>
-  <p class="runline">$ python3 variable.py</p>
-  <pre class="out" data-capture="run-output">fun
-</pre>
-  <p>That is the complete output. One word and a newline, exit code 0. I ran it again while rebuilding this page and it printed the same four bytes.</p>
-
-  <h2><span class="folio">Folio 2</span>Field notes on the other types</h2>
-  <p>The comment at the top of <code>variable.py</code> says the same name could hold an <code>int</code> or a <code>list</code> later. That sentence is why this folio exists. The eight entries below are my notes on the built-in types a beginner meets first. None of them are in <code>variable.py</code>, and I am not going to pretend they are. Each example value is real, each stamp is the <code>type()</code> result I got when I ran it, and each behaviour line is one thing I checked, not a paragraph copied out of a textbook.</p>
-
-  <article class="entry w-a">
-    <p class="no">Entry No. 2 <span class="source-tag notes">Field note</span></p>
-    <h3>int <span class="latin">whole numbers</span></h3>
-    <dl>
-      <dt>Example value</dt>
-      <dd><code>42</code></dd>
-      <dt>type() result</dt>
-      <dd><span class="stamp">&lt;class 'int'&gt;</span></dd>
-      <dt>How it behaves</dt>
-      <dd class="behaviour">It holds whole numbers with no decimal part, so <code>42 // 5</code> comes out as <code>8</code> and the remainder is simply not in the answer.</dd>
-    </dl>
-  </article>
-
-  <article class="entry w-b">
-    <p class="no">Entry No. 3 <span class="source-tag notes">Field note</span></p>
-    <h3>float <span class="latin">numbers with a decimal part</span></h3>
-    <dl>
-      <dt>Example value</dt>
-      <dd><code>3.5</code></dd>
-      <dt>type() result</dt>
-      <dd><span class="stamp">&lt;class 'float'&gt;</span></dd>
-      <dt>How it behaves</dt>
-      <dd class="behaviour">It keeps the decimal part through arithmetic, so <code>3.5 * 2</code> comes out as <code>7.0</code>, not <code>7</code>.</dd>
-    </dl>
-  </article>
-
-  <article class="entry w-c">
-    <p class="no">Entry No. 4 <span class="source-tag notes">Field note</span></p>
-    <h3>bool <span class="latin">one of two answers</span></h3>
-    <dl>
-      <dt>Example value</dt>
-      <dd><code>True</code></dd>
-      <dt>type() result</dt>
-      <dd><span class="stamp">&lt;class 'bool'&gt;</span></dd>
-      <dt>How it behaves</dt>
-      <dd class="behaviour">It holds <code>True</code> or <code>False</code> and nothing else, and Python still counts it as a number: <code>True + 1</code> comes out as <code>2</code>.</dd>
-    </dl>
-  </article>
-
-  <article class="entry w-wide">
-    <p class="no">Entry No. 5 <span class="source-tag notes">Field note</span></p>
-    <h3>list <span class="latin">items in order, changeable</span></h3>
-    <dl>
-      <dt>Example value</dt>
-      <dd><code>[1, 2, 3]</code></dd>
-      <dt>type() result</dt>
-      <dd><span class="stamp">&lt;class 'list'&gt;</span></dd>
-      <dt>How it behaves</dt>
-      <dd class="behaviour">It holds items in order and lets me change it after I make it, so after <code>append(4)</code> the example above reads <code>[1, 2, 3, 4]</code>.</dd>
-    </dl>
-  </article>
-
-  <article class="entry w-e">
-    <p class="no">Entry No. 6 <span class="source-tag notes">Field note</span></p>
-    <h3>tuple <span class="latin">items in order, fixed</span></h3>
-    <dl>
-      <dt>Example value</dt>
-      <dd><code>(1, 2)</code></dd>
-      <dt>type() result</dt>
-      <dd><span class="stamp">&lt;class 'tuple'&gt;</span></dd>
-      <dt>How it behaves</dt>
-      <dd class="behaviour">It holds items in order like a list, I read <code>(1, 2)[0]</code> as <code>1</code>, and I cannot change an item once the tuple is made.</dd>
-    </dl>
-  </article>
-
-  <article class="entry w-d">
-    <p class="no">Entry No. 7 <span class="source-tag notes">Field note</span></p>
-    <h3>dict <span class="latin">values filed under keys</span></h3>
-    <dl>
-      <dt>Example value</dt>
-      <dd><code>{"a": 1}</code></dd>
-      <dt>type() result</dt>
-      <dd><span class="stamp">&lt;class 'dict'&gt;</span></dd>
-      <dt>How it behaves</dt>
-      <dd class="behaviour">It stores pairs, so I fetch a value by its key instead of its position: <code>{"a": 1}["a"]</code> gives <code>1</code>.</dd>
-    </dl>
-  </article>
-
-  <article class="entry w-f">
-    <p class="no">Entry No. 8 <span class="source-tag notes">Field note</span></p>
-    <h3>set <span class="latin">each item once</span></h3>
-    <dl>
-      <dt>Example value</dt>
-      <dd><code>{1, 2}</code></dd>
-      <dt>type() result</dt>
-      <dd><span class="stamp">&lt;class 'set'&gt;</span></dd>
-      <dt>How it behaves</dt>
-      <dd class="behaviour">It holds each item once, so writing <code>{1, 2, 2, 3}</code> keeps only 1, 2, and 3. The second 2 never makes it into the book.</dd>
-    </dl>
-  </article>
-
-  <article class="entry w-b">
-    <p class="no">Entry No. 9 <span class="source-tag notes">Field note</span></p>
-    <h3>NoneType <span class="latin">the empty place</span></h3>
-    <dl>
-      <dt>Example value</dt>
-      <dd><code>None</code></dd>
-      <dt>type() result</dt>
-      <dd><span class="stamp">&lt;class 'NoneType'&gt;</span></dd>
-      <dt>How it behaves</dt>
-      <dd class="behaviour">It has exactly one value, <code>None</code>. I use it when a name has to exist before it has a real value to point at.</dd>
-    </dl>
-  </article>
-
-  <h2><span class="folio">Folio 3</span>The label moves, the book proves it</h2>
-  <p>The claim in the file header is that a variable is a label, not a typed box. I checked it with a short scratch script that rebinds the name <code>keys</code> and asks for its type after each binding. This script is not in the repo. It is a check I ran on the repo claim, and I labeled it that way here.</p>
-  <pre class="code" data-capture="rebind-script">keys = "fun"
-print(type(keys).__name__)
-keys = 42
-print(type(keys).__name__)
-keys = [1, 2]
-print(type(keys).__name__)</pre>
-  <pre class="out" data-capture="rebind-output">str
-int
-list
-</pre>
-  <p>Same name, three types, no error. That is the whole lesson of this repo, shown instead of just stated.</p>
-
-  <h2><span class="folio">Folio 4</span>Plates from the Visuals folder</h2>
-  <p>The repo holds a folder of hand-drawn sheets, <code>Python-DataType-Variable-Visuals</code>. The notes in that folder describe five sheets. The folder itself holds six PNG files, so this page shows six. I would rather show the file that exists than repeat the count that does not match it.</p>
-
-  <figure class="plate p-a">
-    <img src="https://raw.githubusercontent.com/Epsilon0xCell/Python-DataType-Variable/main/Python-DataType-Variable-Visuals/architecture.png" alt="Hand-drawn architecture sheet showing README.md above variable.py and LICENSE">
-    <figcaption>Plate A, architecture.png: how the repo is put together. README.md sits on top, with variable.py and LICENSE under it.</figcaption>
-  </figure>
-
-  <figure class="plate p-b">
-    <img src="https://raw.githubusercontent.com/Epsilon0xCell/Python-DataType-Variable/main/Python-DataType-Variable-Visuals/flowchart.png" alt="Hand-drawn flowchart sheet tracing the run step by step">
-    <figcaption>Plate B, flowchart.png: the run, step by step, from the README down to a clean stop.</figcaption>
-  </figure>
-
-  <figure class="plate p-c">
-    <img src="https://raw.githubusercontent.com/Epsilon0xCell/Python-DataType-Variable/main/Python-DataType-Variable-Visuals/product-map.png" alt="Hand-drawn product map sheet showing what the project is for, what goes in, and what comes out">
-    <figcaption>Plate C, product-map.png: what the project is for, what goes in, what comes out, and where it stops.</figcaption>
-  </figure>
-
-  <figure class="plate p-d">
-    <img src="https://raw.githubusercontent.com/Epsilon0xCell/Python-DataType-Variable/main/Python-DataType-Variable-Visuals/data-flow.png" alt="Hand-drawn data flow sheet showing the path from file to result">
-    <figcaption>Plate D, data-flow.png: the data path in one direction, file to result.</figcaption>
-  </figure>
-
-  <figure class="plate p-e">
-    <img src="https://raw.githubusercontent.com/Epsilon0xCell/Python-DataType-Variable/main/Python-DataType-Variable-Visuals/schematic.png" alt="Hand-drawn schematic sheet listing README.md, variable.py, and LICENSE in flow order">
-    <figcaption>Plate E, schematic.png: the repo as a machine, with a parts list of README.md, variable.py, and LICENSE in flow order. This is the sixth sheet, the one the folder notes do not list.</figcaption>
-  </figure>
-
-  <figure class="plate p-f">
-    <img src="https://raw.githubusercontent.com/Epsilon0xCell/Python-DataType-Variable/main/Python-DataType-Variable-Visuals/statistics.png" alt="Hand-drawn statistics sheet with the repo counts drawn as bars">
-    <figcaption>Plate F, statistics.png: the counts for this repo, drawn as bars I can check against the files.</figcaption>
-  </figure>
-
-  <h2><span class="folio">Folio 5</span>Why the book is thin</h2>
-  <div class="logo-note">
-    <img src="https://raw.githubusercontent.com/Epsilon0xCell/Python-DataType-Variable/main/logo.png" alt="Python-DataType-Variable logo, dark hills and small lit rectangles under a ringed moon">
-    <p>I could have filled this repo with one file per type and called it a course. I did not, because the point I wanted to keep was the smallest one: a name, a value, and a print. Two working lines carry that point with nothing left over, so I left the repo at two working lines and wrote my notes on the other types here, labeled as notes.</p>
-    <p>If you run one thing from this page, run <code>python3 variable.py</code> and watch it print <code>fun</code>. Then change <code>"fun"</code> to <code>42</code> in your own copy and run it again. The label does not care. That is the entry this whole ledger exists to record.</p>
-  </div>
-  <ul class="chips"><li>Python</li><li>variable.py: 6 lines, 2 that run</li><li>Output: fun</li></ul>
-  <p><a href="https://github.com/Epsilon0xCell/Python-DataType-Variable">Read Python-DataType-Variable on GitHub</a> &middot; <a href="https://github.com/Epsilon0xCell">Epsilon0xCell on GitHub</a></p>
-
-  <footer><span>Built by Epsilon0xCell</span><span>Ledger closed. One specimen collected, eight noted, none invented.</span></footer>
-</main>
-
-<script>
-  // I reveal each entry as it reaches the reader, once, in reading order. A ledger is read top to bottom, so the page fills in top to bottom and then stays filled.
-  (function () {
-    var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    var items = document.querySelectorAll(".entry, .plate");
-    if (reduced || !("IntersectionObserver" in window)) {
-      items.forEach(function (el) { el.classList.add("entered"); });
-      return;
-    }
-    var watch = new IntersectionObserver(function (seen) {
-      seen.forEach(function (hit) {
-        if (hit.isIntersecting) {
-          hit.target.classList.add("entered");
-          watch.unobserve(hit.target);
-        }
-      });
-    }, { threshold: 0.3 });
-    items.forEach(function (el) { watch.observe(el); });
-  })();
-</script>
+<footer>
+<p>Colophon, signed off the way a copyist signs a finished gathering: file <code>variable.py</code>; licence, GNU General Public License v3, in <code>LICENSE</code> in the repository; repository, <a class="potlink" href="https://github.com/Epsilon0xCell/Python-DataType-Variable">github.com/Epsilon0xCell/Python-DataType-Variable</a>. Fonts: Bitter and Bitcount Prop Double Ink, both SIL Open Font License 1.1, license texts beside the font files. The title on this sheet is set in Bitter letterforms, because the routed dot grid face cannot carry chronicle hand lettering.</p>
+</footer>
+</div>
 </body>
 </html>

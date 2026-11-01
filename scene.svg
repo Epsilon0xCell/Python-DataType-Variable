@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 340" role="img" aria-label="The copying room from the side: frost on the windows, two copyists at desks, a frozen pot in front and a finished sheet sliding across">
+<rect width="1200" height="340" fill="#5d6a76"/>
+<g fill="#aebfcc" stroke="#2c343c" stroke-width="3">
+<rect x="60" y="30" width="70" height="180"/><rect x="170" y="30" width="70" height="180"/><rect x="280" y="30" width="70" height="180"/>
+</g>
+<g fill="#eef4f6" opacity="0.25">
+<path d="M60,30 l34,26 M60,56 l22,8 M130,30 l-30,24 M350,30 l-32,26 M350,210 l-30,-24 M60,210 l32,-24">
+<animate attributeName="opacity" values="0.12;0.5;0.12" dur="18s" repeatCount="indefinite"/>
+</path>
+</g>
+<g>
+<rect x="1050" y="36" width="90" height="220" fill="#6e5638"/>
+<rect x="1050" y="36" width="90" height="220" fill="#e8ecee">
+<animate attributeName="width" values="26;44;26" dur="16s" repeatCount="indefinite"/>
+</rect>
+<animateTransform attributeName="transform" type="rotate" values="0 1050 256; -1.4 1050 256; 0 1050 256" dur="16s" repeatCount="indefinite"/>
+</g>
+<g>
+<polygon points="330,300 470,300 458,190 342,190" fill="#4a3e30"/>
+<circle cx="400" cy="150" r="22" fill="#cea88a"/>
+<g stroke="#e9e6da" stroke-width="5">
+<line x1="416" y1="196" x2="452" y2="228">
+<animateTransform attributeName="transform" type="rotate" values="0 416 196; -14 416 196; 0 416 196; 0 416 196" keyTimes="0;0.18;0.36;1" dur="5s" repeatCount="indefinite"/>
+</line>
+</g>
+<g stroke="#2a2118" stroke-width="3">
+<line x1="428" y1="238" x2="452" y2="238"><animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.3;0.4;1" dur="5s" repeatCount="indefinite"/></line>
+<line x1="428" y1="248" x2="448" y2="248"><animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.45;0.55;1" dur="5s" repeatCount="indefinite"/></line>
+<line x1="428" y1="258" x2="444" y2="258"><animate attributeName="opacity" values="0;0;1;1" keyTimes="0;0.6;0.7;1" dur="5s" repeatCount="indefinite"/></line>
+</g>
+<polygon points="560,300 700,300 688,190 572,190" fill="#4a3e30"/>
+<circle cx="630" cy="150" r="22" fill="#cea88a"/>
+<g stroke="#cea88a" stroke-width="9">
+<line x1="612" y1="196" x2="592" y2="222">
+<animateTransform attributeName="transform" type="rotate" values="0 612 196; 10 612 196; -10 612 196; 0 612 196; 0 612 196" keyTimes="0;0.12;0.24;0.36;1" dur="9s" repeatCount="indefinite"/>
+</line>
+<line x1="648" y1="196" x2="668" y2="222">
+<animateTransform attributeName="transform" type="rotate" values="0 648 196; -10 648 196; 10 648 196; 0 648 196; 0 648 196" keyTimes="0;0.12;0.24;0.36;1" dur="9s" repeatCount="indefinite"/>
+</line>
+</g>
+<polygon points="742,242 722,278 762,278" fill="#e8a83e">
+<animateTransform attributeName="transform" type="skewX" values="0;3;-2;0" dur="2.4s" repeatCount="indefinite"/>
+</polygon>
+<rect x="726" y="278" width="52" height="16" fill="#241f18"/>
+</g>
+<g>
+<polygon points="120,318 240,318 230,286 130,286" fill="#14161c"/>
+<ellipse cx="180" cy="284" rx="60" ry="10" fill="#59626c"/>
+<path d="M138,282 l28,5 M168,287 l30,-4 M196,283 l24,5" stroke="#aeb8c0" stroke-width="2" fill="none"/>
+<g>
+<rect x="820" y="292" width="270" height="34" fill="#e9dfc6"/>
+<line x1="838" y1="309" x2="1050" y2="309" stroke="#2a2118" stroke-width="3"/>
+<animateTransform attributeName="transform" type="translate" values="-330,0; -330,0; 0,0; 0,0" keyTimes="0;0.4;0.7;1" dur="12s" repeatCount="indefinite"/>
+</g>
+</g>
+<rect y="326" width="1200" height="14" fill="#3d3428"/>
+</svg>
