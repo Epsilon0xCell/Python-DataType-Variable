@@ -1,11 +1,13 @@
-![Intro: the copying room in winter, a blank sheet under stone weights, one ink pot frozen and one thawed over a small lamp](intro-banner.png)
+![Intro: the blank kraft tag retied with red string to a small wooden crate, its knot pulled snug, a wrapped parcel still sitting in the background at the right](intro-banner.png)
 
 
 # Python-DataType-Variable
 
+<p align="center"><img src="logo.png" alt="Python-DataType-Variable logo: a blank kraft luggage tag tied with red string to the corner of a plain brown parcel" width="200"></p>
+
 Basic Python datatype and variable script
 
-![Banner](banner.png)
+![Banner: three brown parcels in a row on a worn sorting table, a blank kraft tag on red string tied to the first parcel with the string stretching toward the second, faint chalk marks on the table](banner.png)
 
 ![Scene: the copying room from the side, a pen dipping and writing, hands rubbed once for warmth, a finished sheet sliding across](scene.svg)
 

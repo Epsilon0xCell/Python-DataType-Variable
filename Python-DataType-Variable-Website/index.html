@@ -3,36 +3,38 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Python-DataType-Variable: a winter day sheet from the copying room</title>
-<meta name="description" content="variable.py holds one assignment and one print call. A day sheet from the copying room: the binding, the output, and the edit and rerun loop.">
+<title>Python-DataType-Variable: the sorting table</title>
+<meta name="description" content="variable.py holds one assignment and one print call. The sorting table: the binding, the output, and the edit and rerun loop.">
 <style>
-@font-face{font-family:'Bitter';src:url('fonts/Bitter.ttf') format('truetype')}
-@font-face{font-family:'Bitcount Prop Double Ink';src:url('fonts/BitcountPropDoubleInk.ttf') format('truetype')}
+@font-face{font-family:'Courier Prime';src:url('fonts/CourierPrime-Regular.ttf') format('truetype');font-weight:400}
+@font-face{font-family:'Courier Prime';src:url('fonts/CourierPrime-Bold.ttf') format('truetype');font-weight:700}
+@font-face{font-family:'Work Sans';src:url('fonts/WorkSans-Regular.ttf') format('truetype');font-weight:400}
+@font-face{font-family:'Work Sans';src:url('fonts/WorkSans-Bold.ttf') format('truetype');font-weight:700}
 *{box-sizing:border-box}
-body{margin:0;background:#221c14;color:#2a2118;font-family:'Bitter',serif;line-height:1.65}
-.sheet{max-width:880px;margin:0 auto;background:#e9dfc6;padding:0 46px 44px;box-shadow:0 0 60px rgba(0,0,0,.55)}
+body{margin:0;background:#2b2118;color:#2e2417;font-family:'Work Sans',sans-serif;line-height:1.65}
+.sheet{max-width:880px;margin:0 auto;background:#eadfc6;padding:0 46px 44px;box-shadow:0 0 60px rgba(0,0,0,.55)}
 .hero{margin:0 -46px}
 .hero img{width:100%;height:240px;object-fit:cover;object-position:50% 78%;display:block}
-h1{font-size:2.5rem;line-height:1.15;margin:.7em 0 .2em;font-weight:700}
-h1 .gold{color:#a5812c}
+h1{font-family:'Courier Prime',monospace;font-size:2.5rem;line-height:1.15;margin:.7em 0 .2em;font-weight:700}
+h1 .gold{color:#b3402a}
 .lede{font-size:1.08rem;max-width:62ch}
-.slip{display:inline-block;background:#f2ead2;color:#1c1a16;text-decoration:none;padding:.5em 1.1em;border-left:4px solid #26408e;margin:.2em .4em .2em 0;box-shadow:inset 0 0 0 1px #cbbd97;transition:background .15s}
-.slip:hover{border-left-color:#3f63c8;background:#f7f0da}
+.slip{display:inline-block;background:#f2ead2;color:#1c1a16;text-decoration:none;padding:.5em 1.1em;border-left:4px solid #b3402a;margin:.2em .4em .2em 0;box-shadow:inset 0 0 0 1px #cbbd97;transition:background .15s}
+.slip:hover{border-left-color:#cf5a41;background:#f7f0da}
 .slip:active{transform:translateY(2px);box-shadow:inset 0 0 0 1px #cbbd97,0 3px 0 rgba(60,45,20,.35)}
 .slip:focus-visible{outline:2px solid #a5812c;outline-offset:-4px}
-a.potlink{color:#26408e;text-decoration:none}
+a.potlink{color:#b3402a;text-decoration:none}
 a.potlink::before{content:'';display:inline-block;width:.6em;height:.6em;border:2px solid #1c1a16;border-radius:50%;margin-right:.4em;vertical-align:-.04em}
 a.potlink:hover::before{background:#1c1a16}
 a.potlink:hover{text-decoration:underline}
 .entry{background:#efe6cc;border:1px solid #c9b98f;padding:20px 26px 8px;margin:26px 0 26px 14px;position:relative}
 .entry::before{content:'';position:absolute;left:-14px;top:0;bottom:0;width:8px;background:repeating-linear-gradient(to bottom,#8a6f3c 0 10px,transparent 10px 22px)}
-.enum{font-family:'Bitter',serif;color:#26408e;font-size:.85rem;letter-spacing:.22em;text-transform:uppercase;margin:0}
-h2{font-size:1.45rem;margin:.15em 0 .4em}
-pre.ink{background:#1e1a14;color:#e9dfc6;padding:16px 20px;overflow-x:auto;font-family:Menlo,Consolas,monospace;font-size:1rem;line-height:1.6}
-.output{font-family:'Bitcount Prop Double Ink',monospace;font-size:3.2rem;color:#26408e;margin:.1em 0;line-height:1.2}
-.gloss{float:right;width:220px;background:#f2ead2;border-left:4px solid #26408e;padding:10px 14px;font-size:.9rem;margin:4px 0 12px 18px}
+.enum{font-family:'Courier Prime',monospace;color:#b3402a;font-size:.85rem;letter-spacing:.22em;text-transform:uppercase;margin:0}
+h2{font-family:'Courier Prime',monospace;font-size:1.45rem;margin:.15em 0 .4em}
+pre.ink{background:#241a12;color:#eadfc6;padding:16px 20px;overflow-x:auto;font-family:Menlo,Consolas,monospace;font-size:1rem;line-height:1.6}
+.output{font-family:'Courier Prime',monospace;font-size:3.2rem;color:#b3402a;margin:.1em 0;line-height:1.2}
+.gloss{float:right;width:220px;background:#f2ead2;border-left:4px solid #b3402a;padding:10px 14px;font-size:.9rem;margin:4px 0 12px 18px}
 .rule{border:0;border-top:2px solid #6b5636;position:relative;margin:38px 0 6px}
-.rule::after{content:'';position:absolute;left:50%;top:-9px;width:16px;height:16px;margin-left:-8px;background:#1e1a14;border-radius:50% 50% 46% 46%}
+.rule::after{content:'';position:absolute;left:50%;top:-9px;width:16px;height:16px;margin-left:-8px;background:#241a12;border-radius:50% 50% 46% 46%}
 footer{font-size:.9rem;color:#5a4a30;border-top:1px solid #c9b98f;margin-top:36px;padding-top:14px}
 @media(max-width:640px){.sheet{padding:0 20px 36px}.hero{margin:0 -20px}.gloss{float:none;width:auto;margin-left:0}}
 </style>
@@ -40,10 +42,10 @@ footer{font-size:.9rem;color:#5a4a30;border-top:1px solid #c9b98f;margin-top:36p
 <body>
 <div class="sheet">
 <header class="hero">
-<img src="https://raw.githubusercontent.com/Epsilon0xCell/Python-DataType-Variable/main/intro-banner.png" alt="The copying room in winter: a blank sheet under stone weights, a frozen ink pot, and one thawed pot over a small lamp">
+<img src="https://raw.githubusercontent.com/Epsilon0xCell/Python-DataType-Variable/main/intro-banner.png" alt="The blank kraft tag retied with red string to a small wooden crate, its knot pulled snug, a wrapped parcel still sitting in the background at the right">
 </header>
 <h1><span class="gold">P</span>ython-DataType-Variable</h1>
-<p class="lede">A single day sheet from the copying room. The program in this repo is very small: <code>variable.py</code> holds one assignment and one print call, and running it shows what the name currently points at. Nothing else is claimed for it, because nothing else is in the file.</p>
+<p class="lede">A single sheet from the sorting table. The program in this repo is very small: <code>variable.py</code> holds one assignment and one print call, and running it shows what the name currently points at. Nothing else is claimed for it, because nothing else is in the file.</p>
 <p><a class="slip" href="#binding">Entry one: the binding</a> <a class="slip" href="#result">Entry two: the result</a> <a class="slip" href="#trying">Entry three: trying it</a> <a class="slip" href="https://github.com/Epsilon0xCell/Python-DataType-Variable">The repository</a></p>
 
 <hr class="rule">
@@ -51,7 +53,7 @@ footer{font-size:.9rem;color:#5a4a30;border-top:1px solid #c9b98f;margin-top:36p
 <p class="enum">Entry one</p>
 <h2>The binding itself</h2>
 <div class="gloss">Marginal gloss: a variable is a label stuck on a value, not a box built for one kind of thing.</div>
-<p>Here is the whole working part of the file, set as an inked block on the sheet, exactly as <code>variable.py</code> has it:</p>
+<p>Here is the whole working part of the file, set as a typed block on the sheet, exactly as <code>variable.py</code> has it:</p>
 <pre class="ink">keys = "fun"
 print(keys)</pre>
 <p>The name <code>keys</code> is tied to the string <code>"fun"</code>. A short comment at the top of the file makes the one idea the file teaches: the same name could later be tied to a whole number or a list, and the print call would still show whatever it points at on that run. Checked against a run, <code>type(keys)</code> reports a string, <code>len("fun")</code> is 3, and the first letter sits at position 0.</p>
@@ -61,7 +63,7 @@ print(keys)</pre>
 <section class="entry" id="result">
 <p class="enum">Entry two</p>
 <h2>The result</h2>
-<p>Run the file and this is what comes back, set large in lapis:</p>
+<p>Run the file and this is what comes back, set large in string red:</p>
 <p class="output">fun</p>
 <p>That is the complete output of the program. One word and a newline, exit code 0, and nothing follows it. The honesty about size is part of the lesson: a first program does not need to be big to show how a name, a value, and a print call fit together.</p>
 </section>
@@ -77,7 +79,7 @@ print(keys)</pre>
 </section>
 
 <footer>
-<p>Colophon, signed off the way a copyist signs a finished gathering: file <code>variable.py</code>; licence, GNU General Public License v3, in <code>LICENSE</code> in the repository; repository, <a class="potlink" href="https://github.com/Epsilon0xCell/Python-DataType-Variable">github.com/Epsilon0xCell/Python-DataType-Variable</a>. Fonts: Bitter and Bitcount Prop Double Ink, both SIL Open Font License 1.1, license texts beside the font files. The title on this sheet is set in Bitter letterforms, because the routed dot grid face cannot carry chronicle hand lettering.</p>
+<p>Colophon, tied off the way a sorter ties a finished bundle: file <code>variable.py</code>; licence, GNU General Public License v3, in <code>LICENSE</code> in the repository; repository, <a class="potlink" href="https://github.com/Epsilon0xCell/Python-DataType-Variable">github.com/Epsilon0xCell/Python-DataType-Variable</a>. Fonts: Courier Prime and Work Sans, both SIL Open Font License 1.1, license texts beside the font files.</p>
 </footer>
 </div>
 </body>
